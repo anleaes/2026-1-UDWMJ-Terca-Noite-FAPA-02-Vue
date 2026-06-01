@@ -14,16 +14,26 @@ const props = defineProps({
   editRouteName: String,
   itemLabel: { type: String, default: 'registro' },
   searchPlaceholder: { type: String, default: 'Buscar...' },
+  addRequiresEmployee: { type: Boolean, default: true },
+  filter: { type: Function, default: null },
 })
 
 const { items, loading, list, search, remove } = useCrud(props.resource)
-const { isAuthenticated } = useAuth()
+const { isAuthenticated, isEmployee } = useAuth()
 const notify = useNotify()
 const query = ref('')
 const deleteDialog = ref(false)
 const targetId = ref(null)
 
-const canAdd = computed(() => !!props.addRouteName && isAuthenticated.value)
+const canAdd = computed(() =>
+  !!props.addRouteName &&
+  isAuthenticated.value &&
+  (!props.addRequiresEmployee || isEmployee.value)
+)
+
+const visibleItems = computed(() =>
+  props.filter ? items.value.filter(props.filter) : items.value
+)
 
 onMounted(list)
 
@@ -49,12 +59,12 @@ async function confirmDelete() {
 
   <q-inner-loading :showing="loading" />
 
-  <div v-if="!loading && items.length === 0">
+  <div v-if="!loading && visibleItems.length === 0">
     <BaseEmptyState :message="`Nenhum ${itemLabel} cadastrado.`" />
   </div>
 
   <div class="row q-col-gutter-md">
-    <div v-for="entity in items" :key="entity.id" class="col-12 col-sm-6 col-md-4">
+    <div v-for="entity in visibleItems" :key="entity.id" class="col-12 col-sm-6 col-md-4">
       <slot
         name="card"
         :entity="entity"
