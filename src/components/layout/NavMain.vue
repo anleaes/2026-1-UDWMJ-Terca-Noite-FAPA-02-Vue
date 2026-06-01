@@ -1,12 +1,14 @@
 <script setup>
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuth } from '../../composables/useAuth'
 
-defineProps({ mode: { type: String, default: 'header' } })
-defineEmits(['toggle-drawer'])
-
 const router = useRouter()
 const { user, isAuthenticated, isEmployee, logout } = useAuth()
+
+const expanded = ref(false)
+function toggle() { expanded.value = !expanded.value }
+function close() { expanded.value = false }
 
 const publicLinks = [
   { to: '/',           label: 'Início' },
@@ -29,54 +31,54 @@ const adminLinks = [
 ]
 
 function onLogout() {
+  close()
   logout()
   router.push('/login')
 }
 </script>
 
 <template>
-  <q-toolbar v-if="mode === 'header'">
-    <q-btn flat dense round icon="menu" class="lt-md" @click="$emit('toggle-drawer')" />
+  <q-toolbar>
     <q-toolbar-title>
       <router-link to="/" class="text-white" style="text-decoration:none;font-weight:700">Host Flow</router-link>
     </q-toolbar-title>
-
-    <div class="gt-sm row q-gutter-md items-center">
-      <router-link v-for="l in publicLinks" :key="l.to" :to="l.to" class="text-white">{{ l.label }}</router-link>
-      <template v-if="isAuthenticated">
-        <router-link v-for="l in authLinks" :key="l.to" :to="l.to" class="text-white">{{ l.label }}</router-link>
-      </template>
-
-      <q-btn-dropdown v-if="isEmployee" flat label="Admin" class="text-white">
-        <q-list>
-          <q-item v-for="l in adminLinks" :key="l.to" clickable v-close-popup :to="l.to">
-            <q-item-section>{{ l.label }}</q-item-section>
-          </q-item>
-        </q-list>
-      </q-btn-dropdown>
-
-      <router-link v-if="isAuthenticated" to="/profile" class="text-white">{{ user?.username }}</router-link>
-      <q-btn v-if="isAuthenticated" flat dense label="Sair" @click="onLogout" />
-      <router-link v-else to="/login" class="text-white">Login</router-link>
-      <router-link v-if="!isAuthenticated" to="/register" class="text-white">Cadastrar</router-link>
-    </div>
+    <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggle" />
   </q-toolbar>
 
-  <q-list v-else>
-    <q-item v-for="l in publicLinks" :key="l.to" clickable :to="l.to">
-      <q-item-section>{{ l.label }}</q-item-section>
-    </q-item>
-    <template v-if="isAuthenticated">
-      <q-item v-for="l in authLinks" :key="l.to" clickable :to="l.to">
-        <q-item-section>{{ l.label }}</q-item-section>
-      </q-item>
-    </template>
-    <template v-if="isEmployee">
-      <q-separator />
-      <q-item-label header>Admin</q-item-label>
-      <q-item v-for="l in adminLinks" :key="l.to" clickable :to="l.to">
-        <q-item-section>{{ l.label }}</q-item-section>
-      </q-item>
-    </template>
-  </q-list>
+  <q-slide-transition>
+    <div v-show="expanded" class="bg-dark text-white q-px-md q-pb-md">
+      <q-list dark>
+        <q-item v-for="l in publicLinks" :key="l.to" clickable :to="l.to" @click="close">
+          <q-item-section>{{ l.label }}</q-item-section>
+        </q-item>
+        <template v-if="isAuthenticated">
+          <q-item v-for="l in authLinks" :key="l.to" clickable :to="l.to" @click="close">
+            <q-item-section>{{ l.label }}</q-item-section>
+          </q-item>
+        </template>
+        <template v-if="isEmployee">
+          <q-separator dark />
+          <q-item-label header class="text-grey-5">Admin</q-item-label>
+          <q-item v-for="l in adminLinks" :key="l.to" clickable :to="l.to" @click="close">
+            <q-item-section>{{ l.label }}</q-item-section>
+          </q-item>
+        </template>
+        <q-separator dark />
+        <q-item v-if="isAuthenticated" clickable to="/profile" @click="close">
+          <q-item-section>{{ user?.username }}</q-item-section>
+        </q-item>
+        <q-item v-if="isAuthenticated" clickable @click="onLogout">
+          <q-item-section>Sair</q-item-section>
+        </q-item>
+        <template v-else>
+          <q-item clickable to="/login" @click="close">
+            <q-item-section>Login</q-item-section>
+          </q-item>
+          <q-item clickable to="/register" @click="close">
+            <q-item-section>Cadastrar</q-item-section>
+          </q-item>
+        </template>
+      </q-list>
+    </div>
+  </q-slide-transition>
 </template>
