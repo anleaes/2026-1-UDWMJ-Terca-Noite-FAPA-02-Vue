@@ -23,7 +23,11 @@ export const router = createRouter({
 router.beforeEach(async (to) => {
   const auth = useAuth()
   if (!auth.ready.value) await auth.loadMe()
+
   if (to.meta.requiresAuth && !auth.isAuthenticated.value) {
     return { path: '/login', query: { next: to.fullPath } }
+  }
+  if (to.meta.requiresEmployee && !auth.isEmployee.value) {
+    return { path: '/' }
   }
 })
