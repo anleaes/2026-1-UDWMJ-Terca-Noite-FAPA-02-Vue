@@ -1,13 +1,12 @@
 <script setup>
-import { computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useAuth } from '../../composables/useAuth'
 
 const props = defineProps({ mode: { type: String, default: 'header' } })
 defineEmits(['toggle-drawer'])
 
-const isAuthenticated = computed(() => false)
-const user = computed(() => null)
-const isEmployee = computed(() => false)
+const router = useRouter()
+const { user, isAuthenticated, isEmployee, logout } = useAuth()
 
 const links = [
   { to: '/', label: 'Início' },
@@ -18,7 +17,10 @@ const links = [
   { to: '/employees', label: 'Funcionários', employee: true },
 ]
 
-const router = useRouter()
+function onLogout() {
+  logout()
+  router.push('/login')
+}
 </script>
 
 <template>
@@ -36,7 +38,7 @@ const router = useRouter()
         >{{ l.label }}</router-link>
       </template>
       <router-link v-if="isAuthenticated" to="/profile" class="text-white">{{ user?.username }}</router-link>
-      <q-btn v-if="isAuthenticated" flat dense label="Sair" @click="router.push('/login')" />
+      <q-btn v-if="isAuthenticated" flat dense label="Sair" @click="onLogout" />
       <router-link v-else to="/login" class="text-white">Login</router-link>
       <router-link v-if="!isAuthenticated" to="/register" class="text-white">Cadastrar</router-link>
     </div>
