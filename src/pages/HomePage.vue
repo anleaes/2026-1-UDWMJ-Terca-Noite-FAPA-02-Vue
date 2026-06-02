@@ -26,8 +26,7 @@ onMounted(() => list({ ordering: '-rating' }))
             <div>{{ p.address }}</div>
           </template>
           <template #actions>
-            <q-btn flat color="primary" label="Ver detalhes" :to="{ name: 'properties-detail', params: { id: p.id } }" />
-            <q-btn flat color="secondary" label="Ver todas" :to="{ name: 'properties-list' }" />
+            <q-btn flat color="primary" label="Ver todas" :to="{ name: 'properties-list' }" />
           </template>
         </BaseCard>
       </div>
