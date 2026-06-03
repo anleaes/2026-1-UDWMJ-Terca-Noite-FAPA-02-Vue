@@ -18,6 +18,9 @@ const routes = [
       { path: 'room-types',             name: 'room_types-list', component: () => import('../pages/room_types/RoomTypeListPage.vue'), meta: { requiresAuth: true, requiresEmployee: true } },
       { path: 'room-types/novo',        name: 'room_types-add',  component: () => import('../pages/room_types/RoomTypeFormPage.vue'), meta: { requiresAuth: true, requiresEmployee: true } },
       { path: 'room-types/:id/editar',  name: 'room_types-edit', component: () => import('../pages/room_types/RoomTypeFormPage.vue'), meta: { requiresAuth: true, requiresEmployee: true } },
+      { path: 'amenities',             name: 'amenities-list', component: () => import('../pages/amenities/AmenityListPage.vue'), meta: { requiresAuth: true, requiresEmployee: true } },
+      { path: 'amenities/novo',        name: 'amenities-add',  component: () => import('../pages/amenities/AmenityFormPage.vue'), meta: { requiresAuth: true, requiresEmployee: true } },
+      { path: 'amenities/:id/editar',  name: 'amenities-edit', component: () => import('../pages/amenities/AmenityFormPage.vue'), meta: { requiresAuth: true, requiresEmployee: true } },
     ],
   },
 ]
