@@ -28,6 +28,9 @@ const routes = [
       { path: 'reservations/novo',              name: 'reservations-add',  component: () => import('../pages/reservations/ReservationFormPage.vue'), meta: { requiresAuth: true } },
       { path: 'reservations/:id/editar',        name: 'reservations-edit', component: () => import('../pages/reservations/ReservationFormPage.vue'), meta: { requiresAuth: true } },
       { path: 'reservations/reservar/:id_room', name: 'reservations-book', component: () => import('../pages/reservations/BookRoomPage.vue'), meta: { requiresAuth: true } },
+      { path: 'reservation-items',             name: 'reservation_items-list', component: () => import('../pages/reservation_items/ReservationItemListPage.vue'), meta: { requiresAuth: true, requiresEmployee: true } },
+      { path: 'reservation-items/novo',        name: 'reservation_items-add',  component: () => import('../pages/reservation_items/ReservationItemFormPage.vue'), meta: { requiresAuth: true, requiresEmployee: true } },
+      { path: 'reservation-items/:id/editar',  name: 'reservation_items-edit', component: () => import('../pages/reservation_items/ReservationItemFormPage.vue'), meta: { requiresAuth: true, requiresEmployee: true } },
     ],
   },
 ]
