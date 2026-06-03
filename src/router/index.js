@@ -15,6 +15,9 @@ const routes = [
       { path: 'properties/novo',        name: 'properties-add',    component: () => import('../pages/properties/PropertyFormPage.vue'), meta: { requiresAuth: true, requiresEmployee: true } },
       { path: 'properties/:id/editar',  name: 'properties-edit',   component: () => import('../pages/properties/PropertyFormPage.vue'), meta: { requiresAuth: true, requiresEmployee: true } },
       { path: 'properties/:id',         name: 'properties-detail', component: () => import('../pages/properties/PropertyDetailPage.vue') },
+      { path: 'room-types',             name: 'room_types-list', component: () => import('../pages/room_types/RoomTypeListPage.vue'), meta: { requiresAuth: true, requiresEmployee: true } },
+      { path: 'room-types/novo',        name: 'room_types-add',  component: () => import('../pages/room_types/RoomTypeFormPage.vue'), meta: { requiresAuth: true, requiresEmployee: true } },
+      { path: 'room-types/:id/editar',  name: 'room_types-edit', component: () => import('../pages/room_types/RoomTypeFormPage.vue'), meta: { requiresAuth: true, requiresEmployee: true } },
     ],
   },
 ]
