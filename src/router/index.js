@@ -11,6 +11,10 @@ const routes = [
       { path: 'login',    name: 'login',    component: () => import('../pages/auth/LoginPage.vue') },
       { path: 'register', name: 'register', component: () => import('../pages/auth/RegisterPage.vue') },
       { path: 'profile',  name: 'profile',  component: () => import('../pages/auth/ProfilePage.vue'), meta: { requiresAuth: true } },
+      { path: 'properties',             name: 'properties-list',   component: () => import('../pages/properties/PropertyListPage.vue') },
+      { path: 'properties/novo',        name: 'properties-add',    component: () => import('../pages/properties/PropertyFormPage.vue'), meta: { requiresAuth: true, requiresEmployee: true } },
+      { path: 'properties/:id/editar',  name: 'properties-edit',   component: () => import('../pages/properties/PropertyFormPage.vue'), meta: { requiresAuth: true, requiresEmployee: true } },
+      { path: 'properties/:id',         name: 'properties-detail', component: () => import('../pages/properties/PropertyDetailPage.vue') },
     ],
   },
 ]
