@@ -24,6 +24,10 @@ const routes = [
       { path: 'rooms',             name: 'rooms-list', component: () => import('../pages/rooms/RoomListPage.vue') },
       { path: 'rooms/novo',        name: 'rooms-add',  component: () => import('../pages/rooms/RoomFormPage.vue'), meta: { requiresAuth: true, requiresEmployee: true } },
       { path: 'rooms/:id/editar',  name: 'rooms-edit', component: () => import('../pages/rooms/RoomFormPage.vue'), meta: { requiresAuth: true, requiresEmployee: true } },
+      { path: 'reservations',                   name: 'reservations-list', component: () => import('../pages/reservations/ReservationListPage.vue'), meta: { requiresAuth: true } },
+      { path: 'reservations/novo',              name: 'reservations-add',  component: () => import('../pages/reservations/ReservationFormPage.vue'), meta: { requiresAuth: true } },
+      { path: 'reservations/:id/editar',        name: 'reservations-edit', component: () => import('../pages/reservations/ReservationFormPage.vue'), meta: { requiresAuth: true } },
+      { path: 'reservations/reservar/:id_room', name: 'reservations-book', component: () => import('../pages/reservations/BookRoomPage.vue'), meta: { requiresAuth: true } },
     ],
   },
 ]
