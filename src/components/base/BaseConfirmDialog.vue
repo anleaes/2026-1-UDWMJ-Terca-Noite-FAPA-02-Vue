@@ -4,8 +4,13 @@ defineProps({
   label: { type: String, default: 'este registro' },
 })
 const emit = defineEmits(['update:modelValue', 'confirm'])
-function close() { emit('update:modelValue', false) }
-function confirm() { emit('confirm'); close() }
+function close() {
+  emit('update:modelValue', false)
+}
+function confirm() {
+  emit('confirm')
+  close()
+}
 </script>
 
 <template>

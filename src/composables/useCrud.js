@@ -3,7 +3,7 @@ import { get, del, request } from '../api/http'
 
 function hasFile(payload) {
   if (!payload || typeof payload !== 'object') return false
-  return Object.values(payload).some(v => v instanceof File || v instanceof Blob)
+  return Object.values(payload).some((v) => v instanceof File || v instanceof Blob)
 }
 
 function toFormData(payload) {
@@ -40,11 +40,16 @@ export function useCrud(resource) {
   }
 
   async function list(params) {
-    loading.value = true; error.value = null
+    loading.value = true
+    error.value = null
     try {
       const data = await get(buildUrl(params))
-      items.value = Array.isArray(data) ? data : (data.results || [])
-    } catch (e) { error.value = e } finally { loading.value = false }
+      items.value = Array.isArray(data) ? data : data.results || []
+    } catch (e) {
+      error.value = e
+    } finally {
+      loading.value = false
+    }
   }
 
   async function search(query, extra) {
@@ -56,9 +61,9 @@ export function useCrud(resource) {
     return item.value
   }
 
-  const create = (payload)     => send('POST', base, payload)
-  const update = (id, payload) => send('PUT',  `${base}${id}/`, payload)
-  const remove = (id)          => del(`${base}${id}/`)
+  const create = (payload) => send('POST', base, payload)
+  const update = (id, payload) => send('PUT', `${base}${id}/`, payload)
+  const remove = (id) => del(`${base}${id}/`)
 
   return { items, item, loading, error, list, search, getOne, create, update, remove }
 }

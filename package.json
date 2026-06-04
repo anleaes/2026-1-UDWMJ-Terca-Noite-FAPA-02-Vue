@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "format": "prettier --write \"src/**/*.{vue,js}\" \"index.html\" \"*.{json,md}\"",
+    "format:check": "prettier --check \"src/**/*.{vue,js}\" \"index.html\""
   },
   "dependencies": {
     "@quasar/extras": "^2.0.0",
@@ -17,6 +19,7 @@
   "devDependencies": {
     "@quasar/vite-plugin": "^1.12.0",
     "@vitejs/plugin-vue": "^6.0.6",
+    "prettier": "3.8.3",
     "sass-embedded": "^1.100.0",
     "vite": "^8.0.12"
   }

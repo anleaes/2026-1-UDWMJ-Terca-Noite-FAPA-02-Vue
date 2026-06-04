@@ -10,8 +10,8 @@ const props = defineProps({
 defineEmits(['delete'])
 
 const { isAuthenticated, isEmployee } = useAuth()
-const canManage = computed(() =>
-  isAuthenticated.value && (!props.requiresEmployee || isEmployee.value)
+const canManage = computed(
+  () => isAuthenticated.value && (!props.requiresEmployee || isEmployee.value)
 )
 </script>
 

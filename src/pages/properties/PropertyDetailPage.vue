@@ -15,10 +15,10 @@ const roomsApi = useCrud('rooms')
 const property = ref(null)
 
 const visibleRooms = computed(() =>
-  roomsApi.items.value.filter(r => r.property === property.value?.id && r.is_active !== false)
+  roomsApi.items.value.filter((r) => r.property === property.value?.id && r.is_active !== false)
 )
-const availableCount = computed(() =>
-  visibleRooms.value.filter(r => r.status === 'AVAILABLE').length
+const availableCount = computed(
+  () => visibleRooms.value.filter((r) => r.status === 'AVAILABLE').length
 )
 
 onMounted(async () => {
@@ -29,12 +29,16 @@ onMounted(async () => {
 
 <template>
   <div v-if="property">
-    <q-img v-if="property.photo" :src="property.photo" style="height:240px" class="q-mb-md" />
+    <q-img v-if="property.photo" :src="property.photo" style="height: 240px" class="q-mb-md" />
     <h1 class="text-h4">{{ property.name }}</h1>
-    <p class="text-grey-7">{{ property.property_type }} · ★ {{ property.rating }} · {{ property.address }}</p>
+    <p class="text-grey-7">
+      {{ property.property_type }} · ★ {{ property.rating }} · {{ property.address }}
+    </p>
     <p>{{ property.description }}</p>
 
-    <h2 class="text-h5 q-mt-lg">Quartos ({{ availableCount }} disponíveis de {{ visibleRooms.length }})</h2>
+    <h2 class="text-h5 q-mt-lg">
+      Quartos ({{ availableCount }} disponíveis de {{ visibleRooms.length }})
+    </h2>
     <div class="row q-col-gutter-md">
       <div v-for="room in visibleRooms" :key="room.id" class="col-12 col-sm-6 col-md-4">
         <BaseCard :image-url="room.photo">
@@ -45,10 +49,12 @@ onMounted(async () => {
           </template>
           <template #description>{{ room.description }}</template>
           <template #actions>
-            <q-btn v-if="isAuthenticated && room.status === 'AVAILABLE'"
-                   color="primary"
-                   :label="statusLabel(room).action"
-                   :to="{ name: 'reservations-book', params: { id_room: room.id } }" />
+            <q-btn
+              v-if="isAuthenticated && room.status === 'AVAILABLE'"
+              color="primary"
+              :label="statusLabel(room).action"
+              :to="{ name: 'reservations-book', params: { id_room: room.id } }"
+            />
             <q-btn v-else flat disable :label="statusLabel(room).action" />
           </template>
         </BaseCard>

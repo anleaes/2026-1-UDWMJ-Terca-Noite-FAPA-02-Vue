@@ -33,27 +33,36 @@ onMounted(async () => {
 async function submit() {
   loading.value = true
   try {
-    isEdit
-      ? await update(route.params.id, form.value)
-      : await create(form.value)
+    isEdit ? await update(route.params.id, form.value) : await create(form.value)
     notify.success('Salvo com sucesso')
     router.push({ name: 'reservation_items-list' })
   } catch {
     notify.error('Falha ao salvar')
-  } finally { loading.value = false }
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 
 <template>
   <h1 class="text-h4 q-mb-lg">Item de Reserva</h1>
-  <q-card class="q-pa-lg" style="max-width:680px;">
+  <q-card class="q-pa-lg" style="max-width: 680px">
     <q-form @submit.prevent="submit" class="q-gutter-md">
-      <BaseResourceSelect v-model="form.reservation" resource="reservations" option-label="id" label="Reserva" />
+      <BaseResourceSelect
+        v-model="form.reservation"
+        resource="reservations"
+        option-label="id"
+        label="Reserva"
+      />
       <BaseResourceSelect v-model="form.service" resource="services" label="Serviço" />
       <q-input v-model.number="form.quantity" type="number" label="Quantidade" filled />
       <q-input v-model.number="form.unit_price" type="number" label="Preço unitário" filled />
       <q-input v-model="form.service_date" type="date" label="Data do serviço" filled />
-      <BaseFormActions :loading="loading" :is-edit="isEdit" :cancel-to="{ name: 'reservation_items-list' }" />
+      <BaseFormActions
+        :loading="loading"
+        :is-edit="isEdit"
+        :cancel-to="{ name: 'reservation_items-list' }"
+      />
     </q-form>
   </q-card>
 </template>

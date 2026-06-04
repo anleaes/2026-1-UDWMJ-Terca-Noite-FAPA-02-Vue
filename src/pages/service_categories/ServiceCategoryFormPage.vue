@@ -27,7 +27,11 @@ const initial = {
 
         <q-checkbox v-model="form.is_active" label="Ativa" />
 
-        <BaseFormActions :loading="loading" :is-edit="isEdit" :cancel-to="{ name: 'service_categories-list' }" />
+        <BaseFormActions
+          :loading="loading"
+          :is-edit="isEdit"
+          :cancel-to="{ name: 'service_categories-list' }"
+        />
       </q-form>
     </template>
   </BaseForm>

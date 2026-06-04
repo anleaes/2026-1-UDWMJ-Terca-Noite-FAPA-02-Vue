@@ -19,7 +19,11 @@ const initial = {
 
         <q-file v-model="form.document_pdf" filled label="PDF da fatura" accept="application/pdf" />
 
-        <BaseFormActions :loading="loading" :is-edit="isEdit" :cancel-to="{ name: 'invoices-list' }" />
+        <BaseFormActions
+          :loading="loading"
+          :is-edit="isEdit"
+          :cancel-to="{ name: 'invoices-list' }"
+        />
       </q-form>
     </template>
   </BaseForm>

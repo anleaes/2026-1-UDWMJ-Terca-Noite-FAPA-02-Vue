@@ -7,27 +7,29 @@ const router = useRouter()
 const { user, isAuthenticated, isEmployee, logout } = useAuth()
 
 const expanded = ref(false)
-function toggle() { expanded.value = !expanded.value }
-function close() { expanded.value = false }
+function toggle() {
+  expanded.value = !expanded.value
+}
+function close() {
+  expanded.value = false
+}
 
 const publicLinks = [
-  { to: '/',           label: 'Início' },
+  { to: '/', label: 'Início' },
   { to: '/properties', label: 'Propriedades' },
-  { to: '/rooms',      label: 'Quartos' },
-  { to: '/services',   label: 'Serviços' },
-  { to: '/reviews',    label: 'Avaliações' },
+  { to: '/rooms', label: 'Quartos' },
+  { to: '/services', label: 'Serviços' },
+  { to: '/reviews', label: 'Avaliações' },
 ]
-const authLinks = [
-  { to: '/reservations', label: 'Reservas' },
-]
+const authLinks = [{ to: '/reservations', label: 'Reservas' }]
 const adminLinks = [
-  { to: '/guests',             label: 'Hóspedes' },
-  { to: '/employees',          label: 'Funcionários' },
-  { to: '/room-types',         label: 'Tipos de Quarto' },
-  { to: '/amenities',          label: 'Comodidades' },
+  { to: '/guests', label: 'Hóspedes' },
+  { to: '/employees', label: 'Funcionários' },
+  { to: '/room-types', label: 'Tipos de Quarto' },
+  { to: '/amenities', label: 'Comodidades' },
   { to: '/service-categories', label: 'Categorias' },
-  { to: '/reservation-items',  label: 'Itens de Reserva' },
-  { to: '/invoices',           label: 'Faturas' },
+  { to: '/reservation-items', label: 'Itens de Reserva' },
+  { to: '/invoices', label: 'Faturas' },
 ]
 
 function onLogout() {
@@ -40,7 +42,9 @@ function onLogout() {
 <template>
   <q-toolbar>
     <q-toolbar-title>
-      <router-link to="/" class="text-white" style="text-decoration:none;font-weight:700">Host Flow</router-link>
+      <router-link to="/" class="text-white" style="text-decoration: none; font-weight: 700">
+        Host Flow
+      </router-link>
     </q-toolbar-title>
     <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggle" />
   </q-toolbar>

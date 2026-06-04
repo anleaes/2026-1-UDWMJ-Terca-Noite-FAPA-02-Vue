@@ -27,18 +27,37 @@ const genderOptions = [
       <q-form class="q-gutter-md" @submit.prevent="submit(form)">
         <div class="row q-col-gutter-md">
           <q-input v-model="form.first_name" class="col-12 col-md-6" filled label="Nome" required />
-          <q-input v-model="form.last_name" class="col-12 col-md-6" filled label="Sobrenome" required />
+          <q-input
+            v-model="form.last_name"
+            class="col-12 col-md-6"
+            filled
+            label="Sobrenome"
+            required
+          />
         </div>
 
         <q-input v-model="form.address" filled label="Endereço" required />
 
         <div class="row q-col-gutter-md">
           <q-input v-model="form.phone" class="col-12 col-md-6" filled label="Telefone" required />
-          <q-input v-model="form.email" class="col-12 col-md-6" filled label="E-mail" type="email" required />
+          <q-input
+            v-model="form.email"
+            class="col-12 col-md-6"
+            filled
+            label="E-mail"
+            type="email"
+            required
+          />
         </div>
 
         <div class="row q-col-gutter-md">
-          <q-input v-model="form.document" class="col-12 col-md-6" filled label="Documento" required />
+          <q-input
+            v-model="form.document"
+            class="col-12 col-md-6"
+            filled
+            label="Documento"
+            required
+          />
           <q-select
             v-model="form.gender"
             class="col-12 col-md-6"
@@ -63,7 +82,11 @@ const genderOptions = [
 
         <q-file v-model="form.profile_photo" filled label="Foto do perfil" accept="image/*" />
 
-        <BaseFormActions :loading="loading" :is-edit="isEdit" :cancel-to="{ name: 'guests-list' }" />
+        <BaseFormActions
+          :loading="loading"
+          :is-edit="isEdit"
+          :cancel-to="{ name: 'guests-list' }"
+        />
       </q-form>
     </template>
   </BaseForm>

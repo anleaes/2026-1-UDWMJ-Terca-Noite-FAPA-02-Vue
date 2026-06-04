@@ -10,7 +10,7 @@ import BaseCard from '../../components/base/BaseCard.vue'
     item-label="propriedade"
     add-route-name="properties-add"
     edit-route-name="properties-edit"
-    :filter="p => p.is_active !== false"
+    :filter="(p) => p.is_active !== false"
   >
     <template #card="{ entity, askDelete, editRouteName, Actions }">
       <BaseCard :image-url="entity.photo">

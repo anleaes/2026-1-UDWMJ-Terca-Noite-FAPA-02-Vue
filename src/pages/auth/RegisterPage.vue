@@ -11,7 +11,8 @@ const router = useRouter()
 
 async function onSubmit() {
   if (form.value.password1 !== form.value.password2) {
-    $q.notify({ type: 'negative', message: 'Senhas não coincidem' }); return
+    $q.notify({ type: 'negative', message: 'Senhas não coincidem' })
+    return
   }
   loading.value = true
   try {
@@ -22,13 +23,15 @@ async function onSubmit() {
     router.push('/login')
   } catch {
     $q.notify({ type: 'negative', message: 'Falha ao cadastrar' })
-  } finally { loading.value = false }
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 
 <template>
   <h1 class="text-h4 q-mb-lg">Criar conta</h1>
-  <q-card class="q-pa-lg" style="max-width:480px;">
+  <q-card class="q-pa-lg" style="max-width: 480px">
     <q-form @submit.prevent="onSubmit" class="q-gutter-md">
       <q-input v-model="form.username" label="Usuário" filled required />
       <q-input v-model="form.password1" type="password" label="Senha" filled required />

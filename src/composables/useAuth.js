@@ -11,10 +11,19 @@ export function useAuth() {
   }
 
   async function loadMe() {
-    if (!getAccessToken()) { state.user = null; state.ready = true; return }
-    try { state.user = await get('/auth/me/') }
-    catch { state.user = null; clearTokens() }
-    finally { state.ready = true }
+    if (!getAccessToken()) {
+      state.user = null
+      state.ready = true
+      return
+    }
+    try {
+      state.user = await get('/auth/me/')
+    } catch {
+      state.user = null
+      clearTokens()
+    } finally {
+      state.ready = true
+    }
   }
 
   function logout() {
@@ -28,6 +37,8 @@ export function useAuth() {
     isEmployee: computed(() => !!state.user?.is_employee),
     isGuest: computed(() => !!state.user?.is_guest),
     ready: computed(() => state.ready),
-    login, logout, loadMe,
+    login,
+    logout,
+    loadMe,
   }
 }

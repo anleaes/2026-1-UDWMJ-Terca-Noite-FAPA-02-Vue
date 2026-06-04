@@ -13,7 +13,7 @@ const { statusLabel } = useRoomStatus()
     item-label="quarto"
     add-route-name="rooms-add"
     edit-route-name="rooms-edit"
-    :filter="r => r.is_active !== false"
+    :filter="(r) => r.is_active !== false"
   >
     <template #card="{ entity, askDelete, editRouteName, Actions }">
       <BaseCard :image-url="entity.photo">
@@ -31,9 +31,12 @@ const { statusLabel } = useRoomStatus()
             @delete="askDelete"
           >
             <template #before>
-              <q-btn v-if="entity.status === 'AVAILABLE'" color="primary"
-                     :label="statusLabel(entity).action"
-                     :to="{ name: 'reservations-book', params: { id_room: entity.id } }" />
+              <q-btn
+                v-if="entity.status === 'AVAILABLE'"
+                color="primary"
+                :label="statusLabel(entity).action"
+                :to="{ name: 'reservations-book', params: { id_room: entity.id } }"
+              />
             </template>
           </component>
         </template>

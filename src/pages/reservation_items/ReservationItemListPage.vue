@@ -13,7 +13,9 @@ import BaseCard from '../../components/base/BaseCard.vue'
   >
     <template #card="{ entity, askDelete, editRouteName, Actions }">
       <BaseCard>
-        <template #title>{{ entity.service?.name || entity.service }} x{{ entity.quantity }}</template>
+        <template #title>
+          {{ entity.service?.name || entity.service }} x{{ entity.quantity }}
+        </template>
         <template #meta>
           <div>Reserva: #{{ entity.reservation }}</div>
           <div>Preço unit.: R$ {{ entity.unit_price }} · Subtotal: R$ {{ entity.subtotal }}</div>
