@@ -5,7 +5,7 @@ import BaseCard from '../../components/base/BaseCard.vue'
 import BaseStatusBadge from '../../components/base/BaseStatusBadge.vue'
 import { useAuth } from '../../composables/useAuth'
 import { useNotify } from '../../composables/useNotify'
-import { post } from '../../api/http'
+import BackendManager from '../../api/BackendManager'
 
 const { isEmployee } = useAuth()
 const notify = useNotify()
@@ -13,7 +13,7 @@ const listKey = ref(0)
 
 async function confirmReservation(id) {
   try {
-    await post(`/reservations/confirmar/${id}/`)
+    await BackendManager.post(`/reservations/confirmar/${id}/`)
     notify.success('Reserva confirmada')
     listKey.value++
   } catch {

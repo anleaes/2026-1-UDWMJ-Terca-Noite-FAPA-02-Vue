@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQuasar } from 'quasar'
-import { request } from '../../api/http'
+import AuthManager from '../../api/AuthManager'
 
 const form = ref({ username: '', password1: '', password2: '' })
 const loading = ref(false)
@@ -16,9 +16,7 @@ async function onSubmit() {
   }
   loading.value = true
   try {
-    const fd = new FormData()
-    Object.entries(form.value).forEach(([k, v]) => fd.append(k, v))
-    await request('POST', '/accounts/registrar/', { body: fd, isMultipart: true })
+    await AuthManager.register(form.value)
     $q.notify({ type: 'positive', message: 'Conta criada. Faça login.' })
     router.push('/login')
   } catch {

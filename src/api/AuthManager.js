@@ -5,7 +5,6 @@ const ACCESS_TOKEN_KEY = 'hf_access'
 const REFRESH_TOKEN_KEY = 'hf_refresh'
 
 export default class AuthManager {
-  
   static async login(username, password) {
     const data = await BackendManager.post('/auth/token/', { username, password })
     this.setTokens({ access: data.access, refresh: data.refresh })
