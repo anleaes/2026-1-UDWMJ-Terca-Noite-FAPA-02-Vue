@@ -1,33 +1,32 @@
 import { reactive, computed } from 'vue'
-import { post, get, setTokens, clearTokens, getAccessToken } from '../api/http'
+import AuthManager from '../api/AuthManager'
 
 const state = reactive({ user: null, ready: false })
 
 export function useAuth() {
   async function login(username, password) {
-    const data = await post('/auth/token/', { username, password })
-    setTokens({ access: data.access, refresh: data.refresh })
+    await AuthManager.login(username, password)
     await loadMe()
   }
 
   async function loadMe() {
-    if (!getAccessToken()) {
+    if (!AuthManager.getAccessToken()) {
       state.user = null
       state.ready = true
       return
     }
     try {
-      state.user = await get('/auth/me/')
+      state.user = await AuthManager.me()
     } catch {
       state.user = null
-      clearTokens()
+      AuthManager.clearTokens()
     } finally {
       state.ready = true
     }
   }
 
   function logout() {
-    clearTokens()
+    AuthManager.logout()
     state.user = null
   }
 

@@ -2,7 +2,6 @@ import axios from 'axios'
 import AuthManager from './AuthManager'
 
 export default class BackendManager {
-  
   static #client = axios.create({ baseURL: import.meta.env.VITE_BACKEND_BASE_URL })
 
   static {

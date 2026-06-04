@@ -1,26 +1,5 @@
 import { ref } from 'vue'
-import { get, del, request } from '../api/http'
-
-function hasFile(payload) {
-  if (!payload || typeof payload !== 'object') return false
-  return Object.values(payload).some((v) => v instanceof File || v instanceof Blob)
-}
-
-function toFormData(payload) {
-  const fd = new FormData()
-  Object.entries(payload).forEach(([k, v]) => {
-    if (v === null || v === undefined || v === '') return
-    fd.append(k, v)
-  })
-  return fd
-}
-
-function send(method, url, payload) {
-  if (hasFile(payload)) {
-    return request(method, url, { body: toFormData(payload), isMultipart: true })
-  }
-  return request(method, url, { body: payload })
-}
+import BackendManager from '../api/BackendManager'
 
 export function useCrud(resource) {
   const base = `/${resource}/`
@@ -29,21 +8,11 @@ export function useCrud(resource) {
   const loading = ref(false)
   const error = ref(null)
 
-  function buildUrl(params) {
-    if (!params || !Object.keys(params).length) return base
-    const qs = new URLSearchParams()
-    Object.entries(params).forEach(([k, v]) => {
-      if (v !== undefined && v !== null && v !== '') qs.append(k, v)
-    })
-    const s = qs.toString()
-    return s ? `${base}?${s}` : base
-  }
-
   async function list(params) {
     loading.value = true
     error.value = null
     try {
-      const data = await get(buildUrl(params))
+      const data = await BackendManager.get(base, params)
       items.value = Array.isArray(data) ? data : data.results || []
     } catch (e) {
       error.value = e
@@ -57,13 +26,13 @@ export function useCrud(resource) {
   }
 
   async function getOne(id) {
-    item.value = await get(`${base}${id}/`)
+    item.value = await BackendManager.get(`${base}${id}/`)
     return item.value
   }
 
-  const create = (payload) => send('POST', base, payload)
-  const update = (id, payload) => send('PUT', `${base}${id}/`, payload)
-  const remove = (id) => del(`${base}${id}/`)
+  const create = (payload) => BackendManager.post(base, payload)
+  const update = (id, payload) => BackendManager.put(`${base}${id}/`, payload)
+  const remove = (id) => BackendManager.delete(`${base}${id}/`)
 
   return { items, item, loading, error, list, search, getOne, create, update, remove }
 }
