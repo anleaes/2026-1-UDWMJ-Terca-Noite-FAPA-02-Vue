@@ -18,12 +18,12 @@ import BaseCard from '../../components/base/BaseCard.vue'
         <template #title>{{ entity.first_name }} {{ entity.last_name }}</template>
 
         <template #meta>
-          <div>Doc: {{ entity.document }} · {{ entity.gender }}</div>
-          <div>{{ entity.email }} · {{ entity.phone }}</div>
+          <p>Doc: {{ entity.document }} · {{ entity.gender }}</p>
+          <address>{{ entity.email }} · {{ entity.phone }}</address>
         </template>
 
         <template #description>
-          <div>Pontos: {{ entity.loyalty_points }}</div>
+          <p>Pontos: {{ entity.loyalty_points }}</p>
         </template>
 
         <template #actions>

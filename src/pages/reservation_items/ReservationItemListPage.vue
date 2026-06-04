@@ -17,9 +17,12 @@ import BaseCard from '../../components/base/BaseCard.vue'
           {{ entity.service?.name || entity.service }} x{{ entity.quantity }}
         </template>
         <template #meta>
-          <div>Reserva: #{{ entity.reservation }}</div>
-          <div>Preço unit.: R$ {{ entity.unit_price }} · Subtotal: R$ {{ entity.subtotal }}</div>
-          <div>Data: {{ entity.service_date }}</div>
+          <p>Reserva: #{{ entity.reservation }}</p>
+          <p>Preço unit.: R$ {{ entity.unit_price }} · Subtotal: R$ {{ entity.subtotal }}</p>
+          <p>
+            Data:
+            <time :datetime="entity.service_date">{{ entity.service_date }}</time>
+          </p>
         </template>
         <template #actions>
           <component

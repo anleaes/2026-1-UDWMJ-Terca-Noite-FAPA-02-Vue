@@ -19,21 +19,23 @@ import BaseCard from '../../components/base/BaseCard.vue'
         </template>
 
         <template #meta>
-          <div>Reserva: {{ entity.reservation }}</div>
-          <div>Emissão: {{ entity.issue_date }} · Valor: R$ {{ entity.amount }}</div>
+          <p>Reserva: {{ entity.reservation }}</p>
+          <p>
+            Emissão:
+            <time :datetime="entity.issue_date">{{ entity.issue_date }}</time>
+            · Valor: R$ {{ entity.amount }}
+          </p>
         </template>
 
         <template #description>
-          <div>
-            <q-btn
-              flat
-              no-caps
-              color="primary"
-              :href="entity.document_pdf"
-              target="_blank"
-              label="Abrir PDF"
-            />
-          </div>
+          <q-btn
+            flat
+            no-caps
+            color="primary"
+            :href="entity.document_pdf"
+            target="_blank"
+            label="Abrir PDF"
+          />
         </template>
 
         <template #actions>
