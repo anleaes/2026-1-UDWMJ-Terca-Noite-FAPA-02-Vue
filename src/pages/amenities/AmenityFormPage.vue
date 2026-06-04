@@ -16,7 +16,11 @@ import BaseFormActions from '../../components/base/BaseFormActions.vue'
         <q-input v-model="form.description" type="textarea" label="Descrição" filled />
         <q-checkbox v-model="form.is_premium" label="Premium" />
         <q-file v-model="form.icon" label="Ícone" filled />
-        <BaseFormActions :loading="loading" :is-edit="isEdit" :cancel-to="{ name: 'amenities-list' }" />
+        <BaseFormActions
+          :loading="loading"
+          :is-edit="isEdit"
+          :cancel-to="{ name: 'amenities-list' }"
+        />
       </q-form>
     </template>
   </BaseForm>

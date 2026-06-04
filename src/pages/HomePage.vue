@@ -4,9 +4,7 @@ import { useCrud } from '../composables/useCrud'
 import BaseCard from '../components/base/BaseCard.vue'
 
 const { items, list } = useCrud('properties')
-const featured = computed(() =>
-  items.value.filter(p => p.is_active !== false).slice(0, 6)
-)
+const featured = computed(() => items.value.filter((p) => p.is_active !== false).slice(0, 6))
 onMounted(() => list({ ordering: '-rating' }))
 </script>
 

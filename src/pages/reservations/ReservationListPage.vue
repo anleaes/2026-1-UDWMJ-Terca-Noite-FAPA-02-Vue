@@ -40,7 +40,9 @@ async function confirmReservation(id) {
         <template #meta>
           <div>Hóspede: {{ entity.guest_name || entity.guest }}</div>
           <div>Quarto: {{ entity.room_label || entity.room }}</div>
-          <div>{{ entity.check_in }} → {{ entity.check_out }} · {{ entity.guests_count }} hóspede(s)</div>
+          <div>
+            {{ entity.check_in }} → {{ entity.check_out }} · {{ entity.guests_count }} hóspede(s)
+          </div>
           <div>Pagamento: {{ entity.payment_method }} · Total: R$ {{ entity.total }}</div>
         </template>
         <template #actions>
@@ -51,8 +53,12 @@ async function confirmReservation(id) {
             @delete="askDelete"
           >
             <template #before>
-              <q-btn v-if="isEmployee && entity.status === 'PENDING'" color="primary" label="Confirmar"
-                     @click="confirmReservation(entity.id)" />
+              <q-btn
+                v-if="isEmployee && entity.status === 'PENDING'"
+                color="primary"
+                label="Confirmar"
+                @click="confirmReservation(entity.id)"
+              />
             </template>
           </component>
         </template>

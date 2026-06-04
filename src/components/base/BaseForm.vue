@@ -29,20 +29,20 @@ onMounted(async () => {
 async function onSubmit(payload) {
   loading.value = true
   try {
-    isEdit
-      ? await update(route.params.id, payload)
-      : await create(payload)
+    isEdit ? await update(route.params.id, payload) : await create(payload)
     notify.success('Salvo com sucesso')
     router.push({ name: props.listRouteName })
   } catch {
     notify.error('Falha ao salvar')
-  } finally { loading.value = false }
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 
 <template>
   <h1 class="text-h4 q-mb-lg">{{ title }}</h1>
-  <q-card class="q-pa-lg" style="max-width:680px;">
+  <q-card class="q-pa-lg" style="max-width: 680px">
     <slot :form="form" :submit="onSubmit" :loading="loading" :is-edit="isEdit" />
   </q-card>
 </template>

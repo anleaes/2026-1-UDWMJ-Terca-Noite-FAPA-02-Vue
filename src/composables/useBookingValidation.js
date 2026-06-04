@@ -20,9 +20,7 @@ export function nightsBetween(checkIn, checkOut) {
 }
 
 export function useBookingValidation(formRef, dailyRateRef) {
-  const nights = computed(() =>
-    nightsBetween(formRef.value.check_in, formRef.value.check_out)
-  )
+  const nights = computed(() => nightsBetween(formRef.value.check_in, formRef.value.check_out))
 
   const total = computed(() => {
     const rate = dailyRateRef?.value || 0

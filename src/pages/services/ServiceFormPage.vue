@@ -33,7 +33,11 @@ function onSubmit(form, submit) {
       <q-form class="q-gutter-md" @submit.prevent="onSubmit(form, submit)">
         <q-input v-model="form.name" filled label="Nome" required />
 
-        <BaseResourceSelect v-model="form.category" resource="service_categories" label="Categoria" />
+        <BaseResourceSelect
+          v-model="form.category"
+          resource="service_categories"
+          label="Categoria"
+        />
 
         <q-input v-model="form.new_category_name" filled label="Nova categoria (opcional)" />
 
@@ -46,7 +50,14 @@ function onSubmit(form, submit) {
         />
 
         <div class="row q-col-gutter-md">
-          <q-input v-model="form.price" class="col-12 col-md-6" filled label="Preço" type="number" required />
+          <q-input
+            v-model="form.price"
+            class="col-12 col-md-6"
+            filled
+            label="Preço"
+            type="number"
+            required
+          />
         </div>
 
         <q-input v-model="form.description" type="textarea" filled autogrow label="Descrição" />
@@ -55,7 +66,11 @@ function onSubmit(form, submit) {
 
         <q-checkbox v-model="form.is_active" label="Ativo" />
 
-        <BaseFormActions :loading="loading" :is-edit="isEdit" :cancel-to="{ name: 'services-list' }" />
+        <BaseFormActions
+          :loading="loading"
+          :is-edit="isEdit"
+          :cancel-to="{ name: 'services-list' }"
+        />
       </q-form>
     </template>
   </BaseForm>

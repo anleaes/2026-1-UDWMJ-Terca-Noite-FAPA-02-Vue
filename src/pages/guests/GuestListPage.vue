@@ -15,9 +15,7 @@ import BaseCard from '../../components/base/BaseCard.vue'
   >
     <template #card="{ entity, askDelete, editRouteName, Actions }">
       <BaseCard :image-url="entity.profile_photo">
-        <template #title>
-          {{ entity.first_name }} {{ entity.last_name }}
-        </template>
+        <template #title>{{ entity.first_name }} {{ entity.last_name }}</template>
 
         <template #meta>
           <div>Doc: {{ entity.document }} · {{ entity.gender }}</div>

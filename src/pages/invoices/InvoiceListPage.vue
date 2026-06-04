@@ -25,7 +25,14 @@ import BaseCard from '../../components/base/BaseCard.vue'
 
         <template #description>
           <div>
-            <q-btn flat no-caps color="primary" :href="entity.document_pdf" target="_blank" label="Abrir PDF" />
+            <q-btn
+              flat
+              no-caps
+              color="primary"
+              :href="entity.document_pdf"
+              target="_blank"
+              label="Abrir PDF"
+            />
           </div>
         </template>
 

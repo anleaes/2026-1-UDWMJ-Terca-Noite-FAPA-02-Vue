@@ -19,13 +19,15 @@ async function onSubmit() {
     router.push(route.query.next || (isEmployee.value ? '/reservations' : '/'))
   } catch {
     $q.notify({ type: 'negative', message: 'Usuário ou senha inválidos' })
-  } finally { loading.value = false }
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 
 <template>
   <h1 class="text-h4 q-mb-lg">Login</h1>
-  <q-card class="q-pa-lg" style="max-width:480px;">
+  <q-card class="q-pa-lg" style="max-width: 480px">
     <q-form @submit.prevent="onSubmit" class="q-gutter-md">
       <q-input v-model="username" label="Usuário" filled required />
       <q-input v-model="password" label="Senha" type="password" filled required />
@@ -33,6 +35,7 @@ async function onSubmit() {
     </q-form>
   </q-card>
   <p class="q-mt-md text-grey-7">
-    Não tem conta? <router-link to="/register">Cadastre-se</router-link>
+    Não tem conta?
+    <router-link to="/register">Cadastre-se</router-link>
   </p>
 </template>

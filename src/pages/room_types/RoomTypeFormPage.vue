@@ -16,7 +16,11 @@ import BaseFormActions from '../../components/base/BaseFormActions.vue'
         <q-input v-model="form.description" type="textarea" label="Descrição" filled />
         <q-input v-model.number="form.base_price" type="number" label="Preço base" filled />
         <q-input v-model.number="form.max_occupancy" type="number" label="Ocupação máxima" filled />
-        <BaseFormActions :loading="loading" :is-edit="isEdit" :cancel-to="{ name: 'room_types-list' }" />
+        <BaseFormActions
+          :loading="loading"
+          :is-edit="isEdit"
+          :cancel-to="{ name: 'room_types-list' }"
+        />
       </q-form>
     </template>
   </BaseForm>

@@ -14,9 +14,7 @@ import BaseCard from '../../components/base/BaseCard.vue'
   >
     <template #card="{ entity, askDelete, editRouteName, Actions }">
       <BaseCard>
-        <template #title>
-          {{ entity.first_name }} {{ entity.last_name }}
-        </template>
+        <template #title>{{ entity.first_name }} {{ entity.last_name }}</template>
 
         <template #meta>
           <div>Cargo: {{ entity.position }} · Contratado em: {{ entity.hired_date }}</div>
@@ -26,7 +24,14 @@ import BaseCard from '../../components/base/BaseCard.vue'
 
         <template #description>
           <div>
-            <q-btn flat no-caps color="primary" :href="entity.contract" target="_blank" label="Ver contrato" />
+            <q-btn
+              flat
+              no-caps
+              color="primary"
+              :href="entity.contract"
+              target="_blank"
+              label="Ver contrato"
+            />
           </div>
         </template>
 

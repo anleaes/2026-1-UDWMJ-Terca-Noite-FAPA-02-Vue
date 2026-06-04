@@ -3,8 +3,12 @@ import { API_BASE_URL } from './config'
 const TOKEN_KEY = 'hf_access'
 const REFRESH_KEY = 'hf_refresh'
 
-export function getAccessToken() { return localStorage.getItem(TOKEN_KEY) }
-export function getRefreshToken() { return localStorage.getItem(REFRESH_KEY) }
+export function getAccessToken() {
+  return localStorage.getItem(TOKEN_KEY)
+}
+export function getRefreshToken() {
+  return localStorage.getItem(REFRESH_KEY)
+}
 export function setTokens({ access, refresh }) {
   if (access) localStorage.setItem(TOKEN_KEY, access)
   if (refresh) localStorage.setItem(REFRESH_KEY, refresh)
@@ -22,14 +26,19 @@ async function refreshAccess() {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ refresh }),
   })
-  if (!res.ok) { clearTokens(); return false }
+  if (!res.ok) {
+    clearTokens()
+    return false
+  }
   const data = await res.json()
   setTokens({ access: data.access })
   return true
 }
 
 export async function request(method, path, { body, isMultipart = false, retry = true } = {}) {
-  const url = path.startsWith('http') ? path : `${API_BASE_URL}${path.startsWith('/') ? path : '/' + path}`
+  const url = path.startsWith('http')
+    ? path
+    : `${API_BASE_URL}${path.startsWith('/') ? path : '/' + path}`
   const headers = {}
   const token = getAccessToken()
   if (token) headers.Authorization = `Bearer ${token}`
@@ -39,7 +48,7 @@ export async function request(method, path, { body, isMultipart = false, retry =
     payload = JSON.stringify(body)
   }
   const res = await fetch(url, { method, headers, body: payload })
-  if (res.status === 401 && retry && await refreshAccess()) {
+  if (res.status === 401 && retry && (await refreshAccess())) {
     return request(method, path, { body, isMultipart, retry: false })
   }
   const contentType = res.headers.get('content-type') || ''
@@ -53,8 +62,8 @@ export async function request(method, path, { body, isMultipart = false, retry =
   return data
 }
 
-export const get   = (p)            => request('GET',    p)
-export const post  = (p, body, o)   => request('POST',   p, { body, ...o })
-export const put   = (p, body, o)   => request('PUT',    p, { body, ...o })
-export const patch = (p, body, o)   => request('PATCH',  p, { body, ...o })
-export const del   = (p)            => request('DELETE', p)
+export const get = (p) => request('GET', p)
+export const post = (p, body, o) => request('POST', p, { body, ...o })
+export const put = (p, body, o) => request('PUT', p, { body, ...o })
+export const patch = (p, body, o) => request('PATCH', p, { body, ...o })
+export const del = (p) => request('DELETE', p)

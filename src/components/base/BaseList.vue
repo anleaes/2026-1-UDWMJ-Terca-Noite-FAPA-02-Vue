@@ -25,23 +25,32 @@ const query = ref('')
 const deleteDialog = ref(false)
 const targetId = ref(null)
 
-const canAdd = computed(() =>
-  !!props.addRouteName &&
-  isAuthenticated.value &&
-  (!props.addRequiresEmployee || isEmployee.value)
+const canAdd = computed(
+  () =>
+    !!props.addRouteName &&
+    isAuthenticated.value &&
+    (!props.addRequiresEmployee || isEmployee.value)
 )
 
-const visibleItems = computed(() =>
-  props.filter ? items.value.filter(props.filter) : items.value
-)
+const visibleItems = computed(() => (props.filter ? items.value.filter(props.filter) : items.value))
 
 onMounted(list)
 
-function onSearch() { query.value ? search(query.value) : list() }
-function askDelete(id) { targetId.value = id; deleteDialog.value = true }
+function onSearch() {
+  query.value ? search(query.value) : list()
+}
+function askDelete(id) {
+  targetId.value = id
+  deleteDialog.value = true
+}
 async function confirmDelete() {
-  try { await remove(targetId.value); notify.success('Excluído'); list() }
-  catch { notify.error('Falha ao excluir') }
+  try {
+    await remove(targetId.value)
+    notify.success('Excluído')
+    list()
+  } catch {
+    notify.error('Falha ao excluir')
+  }
 }
 </script>
 
@@ -49,12 +58,23 @@ async function confirmDelete() {
   <h1 class="text-h4 q-mb-lg">{{ title }}</h1>
 
   <div class="row q-gutter-md q-mb-lg items-center">
-    <q-input v-model="query" dense filled :placeholder="searchPlaceholder" class="col"
-             @keyup.enter="onSearch">
+    <q-input
+      v-model="query"
+      dense
+      filled
+      :placeholder="searchPlaceholder"
+      class="col"
+      @keyup.enter="onSearch"
+    >
       <template #append><q-btn flat dense icon="search" @click="onSearch" /></template>
     </q-input>
-    <q-btn v-if="canAdd" color="primary" icon="add"
-           :label="`Novo ${itemLabel}`" :to="{ name: addRouteName }" />
+    <q-btn
+      v-if="canAdd"
+      color="primary"
+      icon="add"
+      :label="`Novo ${itemLabel}`"
+      :to="{ name: addRouteName }"
+    />
   </div>
 
   <q-inner-loading :showing="loading" />

@@ -33,7 +33,11 @@ const ratingOptions = [1, 2, 3, 4, 5].map((value) => ({ label: String(value), va
 
         <q-file v-model="form.photo" filled label="Foto" accept="image/*" />
 
-        <BaseFormActions :loading="loading" :is-edit="isEdit" :cancel-to="{ name: 'reviews-list' }" />
+        <BaseFormActions
+          :loading="loading"
+          :is-edit="isEdit"
+          :cancel-to="{ name: 'reviews-list' }"
+        />
       </q-form>
     </template>
   </BaseForm>

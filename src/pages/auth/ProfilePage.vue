@@ -5,7 +5,10 @@ import { useAuth } from '../../composables/useAuth'
 const { user, logout } = useAuth()
 const router = useRouter()
 
-function onLogout() { logout(); router.push('/login') }
+function onLogout() {
+  logout()
+  router.push('/login')
+}
 </script>
 
 <template>
