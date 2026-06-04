@@ -1,9 +1,10 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useCrud } from '../../composables/useCrud'
 import { useAuth } from '../../composables/useAuth'
 import { useNotify } from '../../composables/useNotify'
+import { useBookingValidation } from '../../composables/useBookingValidation'
 import BaseFormActions from '../../components/base/BaseFormActions.vue'
 
 const route = useRoute()
@@ -17,11 +18,9 @@ const form = ref({
   check_in: '', check_out: '', guests_count: 1,
   payment_method: 'PIX', notes: '',
 })
-const totalEstimado = computed(() => {
-  if (!room.value || !form.value.check_in || !form.value.check_out) return 0
-  const nights = (new Date(form.value.check_out) - new Date(form.value.check_in)) / 86400000
-  return nights > 0 ? nights * room.value.daily_rate : 0
-})
+
+const dailyRate = computed(() => room.value?.daily_rate)
+const { total, validate } = useBookingValidation(form, dailyRate)
 
 onMounted(async () => {
   await loadMe()
@@ -34,9 +33,8 @@ onMounted(async () => {
 })
 
 async function submit() {
-  if (new Date(form.value.check_out) <= new Date(form.value.check_in)) {
-    notify.error('A data de check-out precisa ser depois do check-in.'); return
-  }
+  const err = validate()
+  if (err) { notify.error(err); return }
   try {
     await reservationsApi.create({ room: room.value.id, ...form.value })
     notify.success('Reserva criada')
@@ -67,7 +65,7 @@ async function submit() {
                 :options="[{value:'CASH',label:'Dinheiro'},{value:'CREDIT',label:'Cartão de crédito'},{value:'DEBIT',label:'Cartão de débito'},{value:'PIX',label:'PIX'}]"
                 emit-value map-options label="Pagamento" filled />
       <q-input v-model="form.notes" type="textarea" label="Observações" filled />
-      <div class="text-subtitle1">Total estimado: R$ {{ totalEstimado.toFixed(2) }}</div>
+      <div class="text-subtitle1">Total estimado: R$ {{ total.toFixed(2) }}</div>
       <BaseFormActions submit-label="Reservar"
                        :cancel-to="{ name: 'properties-detail', params: { id: room?.property } }" />
     </q-form>
