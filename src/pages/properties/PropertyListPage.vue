@@ -16,8 +16,8 @@ import BaseCard from '../../components/base/BaseCard.vue'
       <BaseCard :image-url="entity.photo">
         <template #title>{{ entity.name }}</template>
         <template #meta>
-          <div>{{ entity.property_type }} · ★ {{ entity.rating }}</div>
-          <div>{{ entity.address }}</div>
+          <p>{{ entity.property_type }} · ★ {{ entity.rating }}</p>
+          <address>{{ entity.address }}</address>
         </template>
         <template #description>{{ entity.description }}</template>
         <template #actions>

@@ -38,12 +38,15 @@ async function confirmReservation(id) {
           <BaseStatusBadge :status="entity.status" />
         </template>
         <template #meta>
-          <div>Hóspede: {{ entity.guest_name || entity.guest }}</div>
-          <div>Quarto: {{ entity.room_label || entity.room }}</div>
-          <div>
-            {{ entity.check_in }} → {{ entity.check_out }} · {{ entity.guests_count }} hóspede(s)
-          </div>
-          <div>Pagamento: {{ entity.payment_method }} · Total: R$ {{ entity.total }}</div>
+          <p>Hóspede: {{ entity.guest_name || entity.guest }}</p>
+          <p>Quarto: {{ entity.room_label || entity.room }}</p>
+          <p>
+            <time :datetime="entity.check_in">{{ entity.check_in }}</time>
+            →
+            <time :datetime="entity.check_out">{{ entity.check_out }}</time>
+            · {{ entity.guests_count }} hóspede(s)
+          </p>
+          <p>Pagamento: {{ entity.payment_method }} · Total: R$ {{ entity.total }}</p>
         </template>
         <template #actions>
           <component

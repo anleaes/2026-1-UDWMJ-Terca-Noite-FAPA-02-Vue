@@ -17,22 +17,23 @@ import BaseCard from '../../components/base/BaseCard.vue'
         <template #title>{{ entity.first_name }} {{ entity.last_name }}</template>
 
         <template #meta>
-          <div>Cargo: {{ entity.position }} · Contratado em: {{ entity.hired_date }}</div>
-          <div>{{ entity.email }} · {{ entity.phone }}</div>
-          <div>Salário: R$ {{ entity.salary }} · {{ entity.is_active ? 'Ativo' : 'Inativo' }}</div>
+          <p>
+            Cargo: {{ entity.position }} · Contratado em
+            <time :datetime="entity.hired_date">{{ entity.hired_date }}</time>
+          </p>
+          <address>{{ entity.email }} · {{ entity.phone }}</address>
+          <p>Salário: R$ {{ entity.salary }} · {{ entity.is_active ? 'Ativo' : 'Inativo' }}</p>
         </template>
 
         <template #description>
-          <div>
-            <q-btn
-              flat
-              no-caps
-              color="primary"
-              :href="entity.contract"
-              target="_blank"
-              label="Ver contrato"
-            />
-          </div>
+          <q-btn
+            flat
+            no-caps
+            color="primary"
+            :href="entity.contract"
+            target="_blank"
+            label="Ver contrato"
+          />
         </template>
 
         <template #actions>

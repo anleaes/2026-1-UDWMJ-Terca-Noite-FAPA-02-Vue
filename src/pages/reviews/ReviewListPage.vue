@@ -20,11 +20,14 @@ import BaseCard from '../../components/base/BaseCard.vue'
         </template>
 
         <template #meta>
-          <div>Reserva #{{ entity.reservation }} · {{ entity.created_at }}</div>
+          <p>
+            Reserva #{{ entity.reservation }} ·
+            <time :datetime="entity.created_at">{{ entity.created_at }}</time>
+          </p>
         </template>
 
         <template #description>
-          <div>{{ entity.comment }}</div>
+          <p>{{ entity.comment }}</p>
         </template>
 
         <template #actions>

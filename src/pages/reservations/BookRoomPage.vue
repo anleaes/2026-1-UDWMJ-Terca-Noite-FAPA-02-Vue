@@ -59,9 +59,9 @@ async function submit() {
   <q-card v-if="room" class="q-mb-md">
     <q-img v-if="room.photo" :src="room.photo" style="height: 200px" />
     <q-card-section>
-      <div class="text-h6">Quarto {{ room.number }}</div>
-      <div class="text-grey-7">Diária: R$ {{ room.daily_rate }}</div>
-      <div>{{ room.description }}</div>
+      <h2 class="text-h6 q-mb-none">Quarto {{ room.number }}</h2>
+      <p class="text-grey-7 q-mb-sm">Diária: R$ {{ room.daily_rate }}</p>
+      <p>{{ room.description }}</p>
     </q-card-section>
   </q-card>
 
@@ -84,7 +84,7 @@ async function submit() {
         filled
       />
       <q-input v-model="form.notes" type="textarea" label="Observações" filled />
-      <div class="text-subtitle1">Total estimado: R$ {{ total.toFixed(2) }}</div>
+      <output class="text-subtitle1 block">Total estimado: R$ {{ total.toFixed(2) }}</output>
       <BaseFormActions
         submit-label="Reservar"
         :cancel-to="{ name: 'properties-detail', params: { id: room?.property } }"

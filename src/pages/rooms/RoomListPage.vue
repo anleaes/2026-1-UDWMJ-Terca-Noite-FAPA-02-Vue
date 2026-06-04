@@ -19,7 +19,7 @@ const { statusLabel } = useRoomStatus()
       <BaseCard :image-url="entity.photo">
         <template #title>Quarto #{{ entity.number }}</template>
         <template #meta>
-          <div>Tipo: {{ entity.room_type }} · Diária: R$ {{ entity.daily_rate }}</div>
+          <p>Tipo: {{ entity.room_type }} · Diária: R$ {{ entity.daily_rate }}</p>
           <q-badge :color="statusLabel(entity).color" :label="statusLabel(entity).label" />
         </template>
         <template #description>{{ entity.description }}</template>

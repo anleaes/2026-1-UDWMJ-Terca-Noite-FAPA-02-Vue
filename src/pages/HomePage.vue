@@ -20,8 +20,8 @@ onMounted(() => list({ ordering: '-rating' }))
         <BaseCard :image-url="p.photo">
           <template #title>{{ p.name }}</template>
           <template #meta>
-            <div>★ {{ p.rating }}</div>
-            <div>{{ p.address }}</div>
+            <p>★ {{ p.rating }}</p>
+            <address>{{ p.address }}</address>
           </template>
           <template #actions>
             <q-btn flat color="primary" label="Ver todas" :to="{ name: 'properties-list' }" />
