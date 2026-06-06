@@ -10,7 +10,7 @@ import FooterMain from '../components/layout/FooterMain.vue'
     </q-header>
 
     <q-page-container>
-      <q-page class="q-pa-md" style="max-width: 1100px; margin: 0 auto">
+      <q-page class="main-page">
         <router-view />
       </q-page>
     </q-page-container>
