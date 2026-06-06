@@ -1,9 +1,20 @@
 import { reactive, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import AuthManager from '../api/AuthManager'
 
 const state = reactive({ user: null, ready: false })
 
 export function useAuth() {
+  function requireAuth(to) {
+    const router = useRouter()
+    if (state.user) {
+      router.push(to)
+      return true
+    }
+    router.push({ name: 'login', query: { next: typeof to === 'string' ? to : '/' } })
+    return false
+  }
+
   async function login(username, password) {
     await AuthManager.login(username, password)
     await loadMe()
@@ -39,5 +50,6 @@ export function useAuth() {
     login,
     logout,
     loadMe,
+    requireAuth,
   }
 }
