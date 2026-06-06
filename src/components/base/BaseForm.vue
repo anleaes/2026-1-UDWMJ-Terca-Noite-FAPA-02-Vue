@@ -41,8 +41,21 @@ async function onSubmit(payload) {
 </script>
 
 <template>
-  <h1 class="text-h4 q-mb-lg">{{ title }}</h1>
-  <q-card class="q-pa-lg" style="max-width: 680px">
-    <slot :form="form" :submit="onSubmit" :loading="loading" :is-edit="isEdit" />
-  </q-card>
+  <div class="form-wrapper">
+    <h1 class="text-h4 q-mb-lg">{{ title }}</h1>
+    <q-card class="q-pa-lg" style="max-width: 680px; width: 100%">
+      <slot :form="form" :submit="onSubmit" :loading="loading" :is-edit="isEdit" />
+    </q-card>
+  </div>
 </template>
+
+<style scoped>
+.form-wrapper {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 24px;
+}
+</style>

@@ -11,6 +11,37 @@ const { items, list } = useCrud('properties')
 const slide = ref('rio')
 const staySlide = ref('hotel')
 
+const brazilianStates = [
+  'Acre', 'Alagoas', 'Amapá', 'Amazonas', 'Bahia', 'Ceará', 'Distrito Federal',
+  'Espírito Santo', 'Goiás', 'Maranhão', 'Mato Grosso', 'Mato Grosso do Sul',
+  'Minas Gerais', 'Pará', 'Paraíba', 'Paraná', 'Pernambuco', 'Piauí',
+  'Rio de Janeiro', 'Rio Grande do Norte', 'Rio Grande do Sul', 'Rondônia',
+  'Roraima', 'Santa Catarina', 'São Paulo', 'Sergipe', 'Tocantins',
+]
+
+const selectedState = ref(null)
+const statePopup = ref(false)
+
+const dateRange = ref({ from: null, to: null })
+const datePopup = ref(false)
+const dateDisplay = computed(() => {
+  if (dateRange.value.from && dateRange.value.to)
+    return `${dateRange.value.from} → ${dateRange.value.to}`
+  if (dateRange.value.from) return dateRange.value.from
+  return 'Escolha suas datas'
+})
+
+const guests = ref({ rooms: 1, people: 2 })
+const guestsPopup = ref(false)
+const guestsDisplay = computed(() => `${guests.value.rooms} quarto${guests.value.rooms > 1 ? 's' : ''}, ${guests.value.people} pessoa${guests.value.people > 1 ? 's' : ''}`)
+
+function incrementGuests(field, max) {
+  if (guests.value[field] < max) guests.value[field]++
+}
+function decrementGuests(field, min) {
+  if (guests.value[field] > min) guests.value[field]--
+}
+
 const heroImage = 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1800&q=80'
 
 const destinations = [
@@ -28,7 +59,7 @@ const destinations = [
   },
   {
     id: 'sao-paulo',
-    title: 'Sao Paulo',
+    title: 'São Paulo',
     subtitle: 'Hoteis urbanos, apartamentos e viagens de negocio',
     image: 'https://images.unsplash.com/photo-1583531352515-8884af319dc1?auto=format&fit=crop&w=1200&q=80',
   },
@@ -36,7 +67,7 @@ const destinations = [
     id: 'pernambuco',
     title: 'Pernambuco',
     subtitle: 'Litoral, cultura e acomodações perto de tudo',
-    image: 'https://images.unsplash.com/photo-1623073284788-0d846f41567c?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://www.maladeaventuras.com/wp-content/uploads/2024/08/recife.jpg',
   },
 ]
 
@@ -117,7 +148,7 @@ onMounted(() => list({ ordering: '-rating' }))
           <h1>{{ greeting }}</h1>
           <p>
             Descubra lugares, compare estilos de hospedagem e siga para a reserva
-            quando encontrar uma opcao que combina com a sua viagem.
+            quando encontrar uma opção que combina com a sua viagem.
           </p>
           <div class="hero-actions">
             <q-btn
@@ -125,7 +156,7 @@ onMounted(() => list({ ordering: '-rating' }))
               color="white"
               text-color="black"
               icon="search"
-              :label="isAuthenticated ? 'Explorar opcoes' : 'Ver sugestoes'"
+              :label="isAuthenticated ? 'Explorar opções' : 'Ver sugestões'"
               @click="explore"
             />
             <q-btn
@@ -152,32 +183,138 @@ onMounted(() => list({ ordering: '-rating' }))
     <section class="search-band">
       <div class="home-container">
         <q-card class="search-card" flat>
-          <q-chip color="grey-2" text-color="grey-10" icon="auto_awesome" label="Busca guiada" />
-          <div class="search-item">
+          <!-- Destino -->
+          <div class="search-item cursor-pointer" @click="statePopup = true">
             <q-icon name="place" size="28px" color="grey-9" />
             <div>
               <span>Destino</span>
-              <strong>Brasil</strong>
+              <strong>{{ selectedState || 'Selecione o estado' }}</strong>
             </div>
           </div>
+          <q-dialog v-model="statePopup">
+            <q-card style="min-width: 320px; max-width: 400px">
+              <q-card-section class="text-h6">Selecione o estado</q-card-section>
+              <q-separator />
+              <q-list>
+                <q-item
+                  v-for="state in brazilianStates"
+                  :key="state"
+                  clickable
+                  :active="selectedState === state"
+                  active-class="bg-grey-2"
+                  @click="selectedState = state; statePopup = false"
+                >
+                  <q-item-section>{{ state }}</q-item-section>
+                </q-item>
+              </q-list>
+            </q-card>
+          </q-dialog>
+
           <q-separator vertical class="gt-sm" />
-          <div class="search-item">
+
+          <!-- Quando -->
+          <div class="search-item cursor-pointer" @click="datePopup = true">
             <q-icon name="calendar_month" size="28px" color="grey-9" />
             <div>
               <span>Quando</span>
-              <strong>Escolha suas datas</strong>
+              <strong>{{ dateDisplay }}</strong>
             </div>
           </div>
+          <q-dialog v-model="datePopup">
+            <q-card>
+              <q-card-section class="text-h6">Escolha as datas</q-card-section>
+              <q-separator />
+              <q-card-section>
+                <q-date v-model="dateRange" range minimal />
+              </q-card-section>
+              <q-card-actions align="right">
+                <q-btn flat label="Limpar" @click="dateRange = { from: null, to: null }" />
+                <q-btn unelevated color="dark" label="Confirmar" @click="datePopup = false" />
+              </q-card-actions>
+            </q-card>
+          </q-dialog>
+
           <q-separator vertical class="gt-sm" />
-          <div class="search-item">
+
+          <!-- Hóspedes -->
+          <div class="search-item cursor-pointer" @click="guestsPopup = true">
             <q-icon name="group" size="28px" color="grey-9" />
             <div>
-              <span>Hospedes</span>
-              <strong>1 quarto, 2 pessoas</strong>
+              <span>Hóspedes</span>
+              <strong>{{ guestsDisplay }}</strong>
             </div>
           </div>
+          <q-dialog v-model="guestsPopup">
+            <q-card style="min-width: 300px">
+              <q-card-section class="text-h6">Hóspedes</q-card-section>
+              <q-separator />
+              <q-card-section class="q-gutter-md">
+                <div class="guests-row">
+                  <div>
+                    <div class="text-weight-bold">Quartos</div>
+                    <div class="text-grey-7 text-caption">Número de quartos</div>
+                  </div>
+                  <div class="guests-counter">
+                    <q-btn round flat icon="remove" @click="decrementGuests('rooms', 1)" />
+                    <span class="text-h6">{{ guests.rooms }}</span>
+                    <q-btn round flat icon="add" @click="incrementGuests('rooms', 10)" />
+                  </div>
+                </div>
+                <div class="guests-row">
+                  <div>
+                    <div class="text-weight-bold">Pessoas</div>
+                    <div class="text-grey-7 text-caption">Número de hóspedes</div>
+                  </div>
+                  <div class="guests-counter">
+                    <q-btn round flat icon="remove" @click="decrementGuests('people', 1)" />
+                    <span class="text-h6">{{ guests.people }}</span>
+                    <q-btn round flat icon="add" @click="incrementGuests('people', 20)" />
+                  </div>
+                </div>
+              </q-card-section>
+              <q-card-actions align="right">
+                <q-btn unelevated color="dark" label="Confirmar" @click="guestsPopup = false" />
+              </q-card-actions>
+            </q-card>
+          </q-dialog>
+
           <q-btn unelevated color="dark" icon="search" label="Buscar" @click="explore" />
         </q-card>
+      </div>
+    </section>
+
+    <section class="home-section">
+      <div class="home-container">
+        <div class="section-heading">
+          <div>
+            <h2>Hospedagens em destaque</h2>
+            <p>Algumas opcoes cadastradas no Host Flow para voce conhecer.</p>
+          </div>
+          <q-btn flat color="grey-10" icon-right="arrow_forward" label="Ver todas" @click="explore" />
+        </div>
+
+        <div v-if="featured.length" class="row q-col-gutter-lg">
+          <div v-for="property in featured" :key="property.id" class="col-12 col-sm-6 col-md-3">
+            <q-card class="property-card cursor-pointer" flat bordered @click="explore">
+              <q-img :src="property.photo || heroImage" height="170px" />
+              <q-card-section>
+                <div class="property-title">{{ property.name }}</div>
+                <div class="property-meta">
+                  <q-icon name="star" color="grey-9" />
+                  <span>{{ property.rating || 'Novo' }}</span>
+                </div>
+                <div class="property-address">{{ property.address || 'Brasil' }}</div>
+              </q-card-section>
+            </q-card>
+          </div>
+        </div>
+
+        <q-banner v-else rounded class="empty-featured">
+          <template #avatar>
+            <q-icon name="travel_explore" color="grey-10" size="34px" />
+          </template>
+          As hospedagens cadastradas aparecem aqui quando a API estiver disponivel.
+        </q-banner>
       </div>
     </section>
 
@@ -266,41 +403,6 @@ onMounted(() => list({ ordering: '-rating' }))
             </q-card>
           </div>
         </div>
-      </div>
-    </section>
-
-    <section class="home-section">
-      <div class="home-container">
-        <div class="section-heading">
-          <div>
-            <h2>Hospedagens em destaque</h2>
-            <p>Algumas opcoes cadastradas no Host Flow para voce conhecer.</p>
-          </div>
-          <q-btn flat color="grey-10" icon-right="arrow_forward" label="Ver todas" @click="explore" />
-        </div>
-
-        <div v-if="featured.length" class="row q-col-gutter-lg">
-          <div v-for="property in featured" :key="property.id" class="col-12 col-sm-6 col-md-3">
-            <q-card class="property-card cursor-pointer" flat bordered @click="explore">
-              <q-img :src="property.photo || heroImage" height="170px" />
-              <q-card-section>
-                <div class="property-title">{{ property.name }}</div>
-                <div class="property-meta">
-                  <q-icon name="star" color="grey-9" />
-                  <span>{{ property.rating || 'Novo' }}</span>
-                </div>
-                <div class="property-address">{{ property.address || 'Brasil' }}</div>
-              </q-card-section>
-            </q-card>
-          </div>
-        </div>
-
-        <q-banner v-else rounded class="empty-featured">
-          <template #avatar>
-            <q-icon name="travel_explore" color="grey-10" size="34px" />
-          </template>
-          As hospedagens cadastradas aparecem aqui quando a API estiver disponivel.
-        </q-banner>
       </div>
     </section>
 
@@ -401,9 +503,21 @@ onMounted(() => list({ ordering: '-rating' }))
   z-index: 2;
 }
 
+.guests-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.guests-counter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .search-card {
   display: grid;
-  grid-template-columns: auto 1fr auto 1fr auto 1fr auto;
+  grid-template-columns: 1fr auto 1fr auto 1fr auto;
   align-items: center;
   gap: 16px;
   padding: 18px;

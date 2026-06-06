@@ -55,6 +55,7 @@ async function confirmDelete() {
 </script>
 
 <template>
+  <div class="q-px-lg q-py-md">
   <h1 class="text-h4 q-mb-lg">{{ title }}</h1>
 
   <div class="row q-gutter-md q-mb-lg items-center">
@@ -96,4 +97,5 @@ async function confirmDelete() {
   </div>
 
   <BaseConfirmDialog v-model="deleteDialog" :label="itemLabel" @confirm="confirmDelete" />
+  </div>
 </template>
