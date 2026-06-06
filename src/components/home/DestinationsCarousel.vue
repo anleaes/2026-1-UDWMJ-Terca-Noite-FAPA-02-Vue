@@ -86,7 +86,7 @@ const slide = ref(DESTINATIONS[0].id)
 @media (max-width: 599px) {
   .destination-overlay {
     align-items: end;
-    padding: 24px;
+    padding: 24px 24px 64px;
   }
 }
 </style>

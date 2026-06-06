@@ -20,9 +20,11 @@ const staySlide = ref(STAY_TYPES[0].id)
       <q-carousel
         v-model="staySlide"
         animated
-        arrows
+        navigation
         swipeable
-        height="330px"
+        infinite
+        control-color="grey-10"
+        height="340px"
         class="stay-carousel lt-md"
       >
         <q-carousel-slide
@@ -97,10 +99,20 @@ const staySlide = ref(STAY_TYPES[0].id)
 }
 
 .stay-slide-image {
-  height: 190px;
+  height: 150px;
 }
 
 .stay-slide-content {
-  padding: 18px;
+  padding: 14px 18px 44px;
+}
+
+.stay-slide-content h3 {
+  margin: 6px 0 4px;
+}
+
+.stay-slide-content p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.35;
 }
 </style>
