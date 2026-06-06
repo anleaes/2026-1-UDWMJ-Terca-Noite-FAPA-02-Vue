@@ -183,7 +183,6 @@ onMounted(() => list({ ordering: '-rating' }))
     <section class="search-band">
       <div class="home-container">
         <q-card class="search-card" flat>
-          <!-- Destino -->
           <div class="search-item cursor-pointer" @click="statePopup = true">
             <q-icon name="place" size="28px" color="grey-9" />
             <div>
@@ -212,7 +211,6 @@ onMounted(() => list({ ordering: '-rating' }))
 
           <q-separator vertical class="gt-sm" />
 
-          <!-- Quando -->
           <div class="search-item cursor-pointer" @click="datePopup = true">
             <q-icon name="calendar_month" size="28px" color="grey-9" />
             <div>
