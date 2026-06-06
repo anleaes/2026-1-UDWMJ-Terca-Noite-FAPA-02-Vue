@@ -1,12 +1,11 @@
 import { reactive, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { router } from '../router'
 import AuthManager from '../api/AuthManager'
 
 const state = reactive({ user: null, ready: false })
 
 export function useAuth() {
   function requireAuth(to) {
-    const router = useRouter()
     if (state.user) {
       router.push(to)
       return true
