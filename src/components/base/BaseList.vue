@@ -56,7 +56,11 @@ async function confirmDelete() {
 
 <template>
   <div class="q-px-lg q-py-md">
-  <h1 class="text-h4 q-mb-lg">{{ title }}</h1>
+  <h1 class="text-h4 q-mb-sm">{{ title }}</h1>
+
+  <div class="q-mb-md">
+    <slot name="header" />
+  </div>
 
   <div class="row q-gutter-md q-mb-lg items-center">
     <q-input

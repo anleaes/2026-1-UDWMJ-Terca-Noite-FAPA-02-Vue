@@ -1,6 +1,30 @@
 <script setup>
+import { computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import BaseList from '../../components/base/BaseList.vue'
 import BaseCard from '../../components/base/BaseCard.vue'
+import { STAY_TYPES } from '../../constants/home'
+
+const route = useRoute()
+const router = useRouter()
+
+const typeFilter = computed(() => {
+  const value = route.query.type
+  if (!value) return null
+  return STAY_TYPES.some((s) => s.id === value) ? value : null
+})
+
+const activeLabel = computed(() => STAY_TYPES.find((s) => s.id === typeFilter.value)?.title)
+
+const filterFn = computed(() => (p) => {
+  if (p.is_active === false) return false
+  if (typeFilter.value && p.property_type !== typeFilter.value) return false
+  return true
+})
+
+function clearTypeFilter() {
+  router.replace({ name: 'properties-list', query: {} })
+}
 </script>
 
 <template>
@@ -10,8 +34,19 @@ import BaseCard from '../../components/base/BaseCard.vue'
     item-label="propriedade"
     add-route-name="properties-add"
     edit-route-name="properties-edit"
-    :filter="(p) => p.is_active !== false"
+    :filter="filterFn"
   >
+    <template #header v-if="typeFilter">
+      <q-chip
+        removable
+        color="grey-3"
+        text-color="grey-10"
+        icon="filter_alt"
+        @remove="clearTypeFilter"
+      >
+        {{ activeLabel }}
+      </q-chip>
+    </template>
     <template #card="{ entity, askDelete, editRouteName, Actions }">
       <BaseCard :image-url="entity.photo">
         <template #title>{{ entity.name }}</template>
