@@ -3,7 +3,6 @@ import { computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuth } from '../composables/useAuth'
 import { useCrud } from '../composables/useCrud'
-import SearchBar from '../components/home/SearchBar.vue'
 import HeroSection from '../components/home/HeroSection.vue'
 import HomeCta from '../components/home/HomeCta.vue'
 import FeaturedProperties from '../components/home/FeaturedProperties.vue'
@@ -44,8 +43,6 @@ onMounted(() => list({ ordering: '-rating' }))
       @register="goToRegister"
       @reservations="goToReservations"
     />
-
-    <SearchBar @search="explore" />
 
     <FeaturedProperties :properties="featured" @select="explore" />
 
