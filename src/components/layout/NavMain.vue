@@ -50,7 +50,7 @@ function onLogout() {
   </q-toolbar>
 
   <q-slide-transition>
-    <div v-show="expanded" class="bg-dark text-white q-px-md q-pb-md">
+    <div v-show="expanded" class="bg-dark text-white q-px-md q-pb-md nav-panel">
       <q-list dark>
         <q-item v-for="l in publicLinks" :key="l.to" clickable :to="l.to" @click="close">
           <q-item-section>{{ l.label }}</q-item-section>
@@ -68,12 +68,14 @@ function onLogout() {
           </q-item>
         </template>
         <q-separator dark />
-        <q-item v-if="isAuthenticated" clickable to="/profile" @click="close">
-          <q-item-section>{{ user?.username }}</q-item-section>
-        </q-item>
-        <q-item v-if="isAuthenticated" clickable @click="onLogout">
-          <q-item-section>Sair</q-item-section>
-        </q-item>
+        <template v-if="isAuthenticated">
+          <q-item clickable to="/profile" @click="close">
+            <q-item-section>{{ user?.username }}</q-item-section>
+          </q-item>
+          <q-item clickable @click="onLogout">
+            <q-item-section>Sair</q-item-section>
+          </q-item>
+        </template>
         <template v-else>
           <q-item clickable to="/login" @click="close">
             <q-item-section>Login</q-item-section>
@@ -86,3 +88,10 @@ function onLogout() {
     </div>
   </q-slide-transition>
 </template>
+
+<style scoped>
+.nav-panel {
+  max-height: calc(100vh - 50px);
+  overflow-y: auto;
+}
+</style>
