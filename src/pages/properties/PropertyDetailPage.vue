@@ -28,7 +28,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <article v-if="property">
+  <article v-if="property" class="q-px-lg q-py-md">
     <header>
       <q-img v-if="property.photo" :src="property.photo" style="height: 240px" class="q-mb-md" />
       <h1 class="text-h4">{{ property.name }}</h1>

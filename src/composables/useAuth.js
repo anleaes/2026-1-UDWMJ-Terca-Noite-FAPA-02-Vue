@@ -15,27 +15,39 @@ export function useAuth() {
   }
 
   async function login(username, password) {
+    console.log('[auth] login start', { username })
     await AuthManager.login(username, password)
+    console.log('[auth] login ok, calling loadMe')
     await loadMe()
   }
 
   async function loadMe() {
-    if (!AuthManager.getAccessToken()) {
+    const token = AuthManager.getAccessToken()
+    console.log('[auth] loadMe start', { hasToken: !!token })
+    if (!token) {
       state.user = null
       state.ready = true
+      console.log('[auth] loadMe: no token, user=null')
       return
     }
     try {
       state.user = await AuthManager.me()
-    } catch {
+      console.log('[auth] loadMe ok', {
+        user: state.user,
+        isEmployee: !!state.user?.is_employee,
+        isGuest: !!state.user?.is_guest,
+      })
+    } catch (err) {
       state.user = null
       AuthManager.clearTokens()
+      console.error('[auth] loadMe failed — tokens cleared', err)
     } finally {
       state.ready = true
     }
   }
 
   function logout() {
+    console.log('[auth] logout')
     AuthManager.logout()
     state.user = null
   }

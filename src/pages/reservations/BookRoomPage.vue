@@ -55,6 +55,7 @@ async function submit() {
 </script>
 
 <template>
+  <div class="q-px-lg q-py-md">
   <h1 class="text-h4 q-mb-lg">Reservar Quarto</h1>
   <q-card v-if="room" class="q-mb-md">
     <q-img v-if="room.photo" :src="room.photo" style="height: 200px" />
@@ -91,4 +92,5 @@ async function submit() {
       />
     </q-form>
   </q-card>
+  </div>
 </template>
